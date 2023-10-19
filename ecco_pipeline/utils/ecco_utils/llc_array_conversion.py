@@ -329,3 +329,68 @@ def llc_faces_to_compact(F, less_output=True):
         print ('shape of data_compact ', data_compact.shape)
 
     return data_compact
+
+def aste_faces_to_compact(f_aste, llc=270, less_output=True):
+    # converts a dictionary of 4 aste faces 
+    # to compact format.
+    
+    if llc==270:
+        c1 = 450
+        c2 = 180
+    elif llc == 1080:
+        c1 = 450*3
+        c2 = 180*3
+    else:
+        print('llc must be 270 or 1080')
+        return 0
+    
+    # more explict 
+    # aste_compact = np.zeros([c1*2+c2+llc, llc])
+    # aste_compact[0:c1,:] = f_aste[1]
+    # aste_compact[c1:c1+llc,:] = f_aste[3]
+    # ddx2r_b = np.reshape(f_aste[5], [c1, llc])
+    # ddx_b = np.reshape(f_aste[4], [c2,llc])
+    # aste_compact[c1+llc:,:] = np.vstack([ddx_b, ddx2r_b])
+    
+    # less explicit one liner 
+    aste_compact = np.vstack([f_aste[1],\
+                              f_aste[3],\
+                              np.reshape(f_aste[4], [c2, llc]),\
+                              np.reshape(f_aste[5], [c1, llc])])
+    if not less_output:
+        print(f'aste_compact shape {aste_compact.shape}')
+    
+    # return the array 
+    return aste_compact
+
+
+def aste_stacked_to_faces(f_aste_stacked, llc=270, less_output=True):
+    # take a 'stacked' aste array and puts them back into the 
+    # 4 face dictionary format
+    if llc==270:
+        c1 = 450
+        c2 = 180
+    elif llc == 1080:
+        c1 = 450*3
+        c2 = 180*3
+    else:
+        print('llc of 270 or 1080')
+        return 0
+    
+    f_aste = dict()
+    cnt = 0
+    f_aste[1] = f_aste_stacked[0:c1,:]
+    cnt += c1
+    f_aste[3] = np.rot90(f_aste_stacked[cnt:cnt+llc,:],1)
+    cnt += llc
+    f_aste[4] = f_aste_stacked[cnt:cnt+c2,:].T
+    cnt += c2
+    f_aste[5] = np.rot90(f_aste_stacked[cnt:,:],-1)
+    
+    
+    return f_aste
+
+
+def aste_stacked_to_compact(aste_stacked, llc=270, less_output=True):
+    tmp_f = aste_stacked_to_faces(aste_stacked, llc=270, less_output=True)
+    return aste_faces_to_compact(tmp_f, llc=270, less_output=True)

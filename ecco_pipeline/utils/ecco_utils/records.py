@@ -1,7 +1,7 @@
 import xarray as xr
 import numpy as np
 from pathlib import Path
-from utils.ecco_utils.llc_array_conversion import llc_tiles_to_compact
+from utils.ecco_utils.llc_array_conversion import llc_tiles_to_compact, aste_stacked_to_compact
 
 
 def make_empty_record(record_date: str, model_grid: xr.Dataset, array_precision: type) -> xr.DataArray:
@@ -81,6 +81,9 @@ def save_binary(data, output_filename, binary_fill_value, binary_output_dir, bin
         # otherwise assume grid is x,y (2 dimensions)
         elif model_grid_type == 'latlon':
             tmp_field = tmp_fields[i, :]
+            
+        elif model_grid_type == 'aste_llc':
+            tmp_field = aste_stacked_to_compact(tmp_fields[i, :], less_output=True)
 
         else:
             print('unknown model grid type!')
