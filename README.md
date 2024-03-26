@@ -1,12 +1,12 @@
 # ECCO-PIPELINE
 
 ## Summary
-The ECCO_PIPELINE exists as a framework to regularly harvest and transform datasets used as inputs for the ECCO model. 
+The ECCO_OBS_PIPELINE exists as a framework to regularly harvest and transform datasets used as inputs for the ECCO model. 
 
 Data is harvested from multiple sources (PO.DAAC, NSIDC, OSISAF, iFremer) and transformed to a variety of grids and formats (binary and netCDF, daily and monthly average). A Solr database is utilized for maintaining the state of a dataset between pipeline runs.
 
 ## Documentation
-Documentation is in the process of being overhauled. Legacy documentation can be found on the repo's wiki: https://github.com/ECCO-GROUP/ECCO-pipeline/wiki. 
+Documentation is in the process of being overhauled. Legacy documentation can be found on the repo's wiki: https://github.com/ECCO-GROUP/ECCO-obs-pipeline/wiki. 
 
 ## Setup
 
@@ -24,7 +24,7 @@ bin/solr create -c ecco_datasets
 
 ### Clone repo
 ```
-git clone https://github.com/ECCO-GROUP/ECCO-pipeline.git
+git clone https://github.com/ECCO-GROUP/ECCO-obs-pipeline.git
 ```
 
 ### Install dependencies via Conda envrionment 
